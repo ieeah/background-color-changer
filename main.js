@@ -22,6 +22,7 @@ const simpleLi = document.getElementById('simpleLi');
 const rgbLi = document.getElementById('rgbLi');
 let bgColor = 0;
 let hxRandom = 0;
+const bodyColor = document.body.style.backgroundColor;
 const colorTextlist = document.getElementById('bghere1');
 const colorTextHex = document.getElementById('bghere2');
 const colorTextRgb = document.getElementById('bghere3');
@@ -41,7 +42,7 @@ simpleLi.addEventListener('click', function() {
 });
 
 rgbLi.addEventListener('click', function() {
-    
+
     document.querySelector('.rgb.d-none').classList.remove('d-none');
     document.querySelector('.hex').classList.add('d-none');
     document.querySelector('.list').classList.add('d-none');
@@ -49,29 +50,24 @@ rgbLi.addEventListener('click', function() {
 
 btnList.addEventListener('click', function () {
 
-    bgColor++;
-    if (bgColor > colorList.length - 1) {
-        bgColor = 0;
-    }
+
+    bgColor >= 7 ? bgColor = 0 : bgColor++;
     document.body.style.backgroundColor = colorList[bgColor];
-    colorTextlist.innerText = ` ${colorList[bgColor]}`;
+    colorTextlist.innerText = ` ${colorList[bgColor]} ${bgColor}`;
 
 });
 
 
 btnHex.addEventListener('click', function() {
-    let hex1 = Math.floor(Math.random() * 16);
-    let hex2 = Math.floor(Math.random() * 16);
-    let hex3 = Math.floor(Math.random() * 16);
-    let hex4 = Math.floor(Math.random() * 16);
-    let hex5 = Math.floor(Math.random() * 16);
-    let hex6 = Math.floor(Math.random() * 16);
-    let hexColor = `#${hexComposer[hex1]}${hexComposer[hex2]}${hexComposer[hex3]}${hexComposer[hex4]}${hexComposer[hex5]}${hexComposer[hex6]}`;
+  let hexColorNew = "#";
 
-    console.log(hexColor);
+  for (let i = 0; i < 6; i++) {
+    let hex = Math.floor(Math.random() * 16);
+    hexColorNew += hexComposer[hex];
+  }
 
-    document.body.style.backgroundColor = hexColor;
-    colorTextHex.innerText = `${hexColor}`;
+  document.body.style.backgroundColor = hexColorNew;
+  colorTextHex.innerText = `${hexColorNew}`;
 });
 
 btnRgb.addEventListener('click', function () {
