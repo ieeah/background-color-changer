@@ -29,21 +29,14 @@ const hexComposer = [
   "F",
 ];
 
-const sections = document.querySelectorAll("section");
-let bgColor = 0;
-let hxRandom = 0;
-const bodyColor = document.body.style.backgroundColor;
-const colorTextlist = document.getElementById("bghere1");
-const colorTextHex = document.getElementById("bghere2");
-const colorTextRgb = document.getElementById("bghere3");
-
-const tabs = ["0", "1", "2"];
 let activeTab = "0";
-
-function setActiveTab(tab) {
-  activeTab = tab.toString();
-}
-function setActiveSection(index) {
+let activeColor = null;
+const sections = document.querySelectorAll("section");
+let colorListIndex = 0;
+const colorTextlist = document.querySelectorAll("#bghere");
+const setActiveColor = (color) => activeColor = color;
+const setActiveTab = (tab) => activeTab = tab;
+const setActiveSection = (index) => {
   sections.forEach((section, i) => {
     if (i != index) {
       section.classList.add("d-none");
@@ -52,31 +45,33 @@ function setActiveSection(index) {
     }
   });
 }
+const setInnerText = () => colorTextlist[activeTab].innerText = `${activeColor}`;
+const setBgColor = () => document.body.style.backgroundColor = activeColor;
 
 function troughList() {
-  bgColor >= colorList.length - 1 ? (bgColor = 0) : bgColor++;
-  document.body.style.backgroundColor = colorList[bgColor];
-  colorTextlist.innerText = `${colorList[bgColor]}`;
+  colorListIndex >= colorList.length - 1 ? (colorListIndex = 0) : colorListIndex++;
+  doTheThing(colorList[colorListIndex], activeTab);
 }
 
 function generateHEX() {
-  let hexColorNew = "#";
-
-  for (let i = 0; i < 6; i++) {
-    let hex = Math.floor(Math.random() * 16);
-    hexColorNew += hexComposer[hex];
+  let newColor = "#";
+  while(newColor.length < 7) {
+    newColor += hexComposer[Math.floor(Math.random() * 16)];
   }
-
-  document.body.style.backgroundColor = hexColorNew;
-  colorTextHex.innerText = `${hexColorNew}`;
+  doTheThing(newColor, activeTab);
 }
 
 function generateRGB() {
-  let rgb1 = Math.floor(Math.random() * 256);
-  let rgb2 = Math.floor(Math.random() * 256);
-  let rgb3 = Math.floor(Math.random() * 256);
-  let rgbColor = `rgb(${rgb1}, ${rgb2}, ${rgb3})`;
+  let r = Math.floor(Math.random() * 256);
+  let g = Math.floor(Math.random() * 256);
+  let b = Math.floor(Math.random() * 256);
+  doTheThing(`rgb(${r}, ${g}, ${b})`, activeTab);
+}
 
-  document.body.style.backgroundColor = rgbColor;
-  colorTextRgb.innerText = `${rgbColor}`;
+const doTheThing = (color, tab) => {
+  setActiveColor(color);
+  setActiveTab(tab);
+  setActiveSection(tab);
+  setBgColor();
+  setInnerText();
 }
